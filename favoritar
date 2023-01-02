@@ -1,0 +1,5 @@
+#!/bin/sh
+FAVS=~/Sync/favoritos
+
+echo  >> "${FAVS}" && xclip -o >> "${FAVS}"
+notify-send "Favorito adicionado."

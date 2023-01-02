@@ -1,0 +1,2 @@
+#!/bin/sh
+arecord -d 5 testemic.wav; aplay testemic.wav; rm testemic.wav

@@ -1,0 +1,100 @@
+#!/bin/bash
+
+usage(){
+  echo "Usage: $0 -t texfile [-a author] [-e email] [-r number of recompilations] [-h help]"
+  exit 1
+}
+
+call_latex_compiler(){
+  pdflatex -jobname="${texfile%.*}_$1" -output-directory=pdfs "${outputs}/${file%.*}$2.tex" 1> /dev/null
+}
+
+compile(){
+  echo "compiling $1..."
+  call_latex_compiler $1 $2 1> /dev/null
+  echo "compiling bibtex..."
+  bibtex "${texfile%.*}_$1" 1> /dev/null
+}
+
+clean(){
+  # check if file exists then remove it
+  for file in $1; do [[ -f $file ]] && rm $file; done
+}
+
+change_author(){
+  readauthor=$( grep -E "\\\author\[.*}" $outputs/$file | grep -o -E "\{.*\}" | sed "s/{//" | sed "s/}//" ) 
+  sed -i "s/${readauthor}/${author}/" "$outputs/${file}"
+}
+
+
+change_email(){
+  reademail=$( grep -E "\\\author\[.*}" $outputs/$file | grep -o -E "\[.*\]" | sed "s/\[//" | sed "s/\]//" ) 
+  sed -i "s/$reademail/$email/" "$outputs/${file%.*}.tex"
+}
+
+add_handout(){
+  sed "s/aspectratio=169/aspectratio=169,handout/" "$outputs/${file}" > "${outputs}/${file%.*}_handout.tex"
+}
+
+add_note(){
+  sed "s/\\\begin{document}/\\\setbeameroption{show notes on second screen}\n\\\begin{document}/" "$outputs/${file%.*}_handout.tex" > "$outputs/${file%.*}_note.tex"
+}
+
+# get user flags
+while getopts t:a:e:r:h flag
+do
+  case "${flag}" in
+    a) author=${OPTARG};;
+    e) email=${OPTARG};;
+    r) recompilation=${OPTARG};;
+    t) texfile=${OPTARG};;
+    h) usage;;
+  esac
+done
+
+[[ -z $texfile ]] && echo "error: provide a texfile" && usage
+
+# if output directory do not exists then create it
+outputs="pdfs"
+[[ ! -d $outputs ]] && mkdir $outputs
+
+cp $texfile ${outputs}/
+
+file="$texfile"
+
+# default number of recompilations = 2
+[[ -z $recompilation ]] && recompilation="2" 
+
+# substitute author from args
+[[ ! -z "$author" ]] && change_author
+
+# substitute email from args
+[[ ! -z "$email" ]] && change_email 
+
+
+for (( c=1; c<=$recompilation; c++ ))
+do
+
+  echo "*********** compilation $c ****************"
+  # file="$texfile"
+
+  compile "presentation"
+
+  # add handout parameter and save into a temp file
+  add_handout
+
+  compile "handout" "_handout"
+
+  # if has notes then generate notes
+  hasnote=$(grep -E "\\\note" $outputs/${file})
+  [[ ! -z $hasnote ]] && add_note && compile "note" "_note"
+
+done
+
+# remove temporary files
+temp_files="$outputs/${texfile%.*}.tex $outputs/${file%.*}_handout.tex $outputs/${file%.*}_note.tex $outputs/${file%.*}.tex"
+clean "$temp_files"
+
+# remove latex auxiliaty files
+aux_files="$outputs/*.fdb_latexmk $outputs/*.fls $outputs/*.gz $outputs/*.aux $outputs/*.log $outputs/*.nav $outputs/*.out $outputs/*.snm $outputs/*.toc $outputs/*.vrb $outputs/*.bbl $outputs/*.blg"
+clean "$aux_files"

@@ -1,0 +1,6 @@
+#!/bin/sh
+input="$1"
+while IFS= read -r line
+do
+  yt-dlp --extract-audio --audio-format mp3 --match-filter "duration < 480" ytsearch:"$line" --rm-cache-dir;
+done < "$input"

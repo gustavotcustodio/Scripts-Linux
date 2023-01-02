@@ -1,0 +1,24 @@
+#!/bin/bash
+
+create_project(){
+  mkdir $1
+  cd $1
+  touch main.py
+  printf 'if __name__ == "__main__":\n\tprint("Hello World")' > main.py
+  virtualenv venv
+}
+
+if [ -n "$TMUX" ] 
+then
+  echo "already inside tmux"
+  create_project $1
+  source venv/bin/activate
+  nvim main.py
+else
+  echo "opening tmux"
+  create_project $1
+  tmux new-session -d "source venv/bin/activate.fish;nvim main.py"
+  tmux -2 attach -d
+fi
+
+exec $SHELL

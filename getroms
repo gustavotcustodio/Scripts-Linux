@@ -1,0 +1,82 @@
+#!/bin/bash
+
+ROMSFOLDER="$HOME/Downloads/roms/"
+
+
+echo "Select a console:"
+
+# console selection
+CONSOLE=$(printf "nointro.n64 n64 Nintendo 64\nnointro.snes snes Super Nintendo\nnointro.md sega Sega Genesys\nnointro.gba gba Game Boy Advanced\nno-intro-nintendo-nintendo-ds-decrypted nds Nintendo DS" | fzf --with-nth 3..)
+
+SHORTCONSOLE=$(echo $CONSOLE | awk '{print $2}')
+CONSOLEADDRESS=$(echo $CONSOLE | awk '{print $1}') 
+
+# exit if no console selected
+[[ -z $CONSOLE ]] && echo "no console selected... exiting... " && exit
+
+
+# roms URLS (console filtered)
+URL="https://archive.org/download/$CONSOLEADDRESS"
+
+echo "Select a rom:"
+
+# rom selection
+SELECTION=$(curl -s $URL | grep -o -E "href.*(7z|zip)" | sed 's/href=\"//g' | sed 's/\"//g' | sed 's/>/ /g' | sed -E 's/<.*(7z|zip)//g' | fzf --with-nth 2..) 
+
+# if no rom was selected then exit
+[[ -z $SELECTION ]] && echo "no rom selected... exiting ... " && exit
+
+
+FILTEREDSELECTION=$(echo $SELECTION | awk '{print $1}')
+VISUALSELECTION=$(echo $SELECTION | awk '{$1=""; print $0}')
+
+
+echo $FILTEREDSELECTION
+echo $VISUALSELECTION
+
+# remove first space (previously added)
+VISUALSELECTION=$(echo $VISUALSELECTION | sed 's/ [.*]//')
+
+
+# rom url 
+ROM="$URL/$FILTEREDSELECTION"
+
+echo $ROM
+
+# download rom
+wget $ROM
+
+read -p "Would you like to move it to ${ROMSFOLDER} [yN]?" RESPONSE
+if [[ $RESPONSE == [yY] ]]
+then 
+
+# move to retroarch's roms folder
+case $SHORTCONSOLE in
+
+  n64)
+    mv "$VISUALSELECTION" "${ROMSFOLDER}roms64"
+    ;;
+
+  snes)
+    mv "$VISUALSELECTION" "${ROMSFOLDER}romssnes"
+    ;;
+
+  sega)
+    mv "$VISUALSELECTION" "${ROMSFOLDER}romsega"
+    ;;
+
+  gba)
+    mv "$VISUALSELECTION" "${ROMSFOLDER}romsgba"
+    ;;
+
+  nds)
+    mv "$VISUALSELECTION" "{$ROMSFOLDER}romsds"
+    ;;
+esac
+
+fi
+
+#find . | nl | fzf | awk '{print $1}'
+
+# If you want to hide line numbers
+#find . | nl | fzf --with-nth 2.. | awk '{print $1}'

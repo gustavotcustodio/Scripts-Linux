@@ -1,0 +1,20 @@
+#!/bin/sh
+
+infobateria=$(acpi -b)
+porcentagem=$(echo "$infobateria" | grep -o "[0-9]\\+%" | head -1 | sed "s/%//g")
+
+if [[ $infobateria != *"Discharging"*  ]]; then
+    printf ""
+fi
+
+if [[ $porcentagem -lt 15 ]]; then
+    echo " ${porcentagem}%"
+elif [[ $porcentagem -lt 40 ]]; then
+    echo " ${porcentagem}%"
+elif [[ $porcentagem -lt 65 ]]; then
+    echo " ${porcentagem}%"
+elif [[ $porcentagem -lt 90 ]]; then
+    echo " ${porcentagem}%"
+else
+    echo " ${porcentagem}%"
+fi
