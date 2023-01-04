@@ -15,7 +15,7 @@ static int swallowfloating    = 0;        /* 1 means swallow floating windows by
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 0;        /* 0 means bottom bar */
-static char *fonts[]          = { "monospace:size=11", "JoyPixels:pixelsize=11:antialias=true:autohint=true", "FontAwesome:size=11" };
+static char *fonts[]          = { "monospace:size=11", "Ubuntu Mono Nerd Font:size=11", "FontAwesome:size=11" };
 static char normbgcolor[]           = "#000000";//"#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#eeeeee";//"#bbbbbb";
@@ -33,7 +33,7 @@ typedef struct {
     const void *cmd;
 } Sp;
 
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x30", NULL };
 const char *spcmd2[] = {"st", "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
 static Sp scratchpads[] = {
     /* name          cmd  */
@@ -43,7 +43,7 @@ static Sp scratchpads[] = {
 
 /* tagging */
 
-static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
+static const char *tags[] = { " ", " ", " ", " ", " ", " ", " ", " ", " " };
 
 static const Rule rules[] = {
     /* xprop(1):

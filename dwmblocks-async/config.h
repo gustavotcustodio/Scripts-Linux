@@ -4,7 +4,7 @@
 
 const Block blocks[] = {
 	BLOCK("curl -Ss 'https://wttr.in?0&T&Q' | cut -c 16- | head -2 | xargs echo", 600, 28),
-	BLOCK("echo ' ';df -h | grep sda1 | awk '{printf(\"%.1f/%.1fGB\", $3, $2)}'", 120, 19),
+	BLOCK("echo ' ';df -h | grep home | awk '{printf(\"%.1f/%.1fGB\", $3, $2)}'", 120, 19),
 	BLOCK("echo ' ';free -h | awk '/^Mem/ { print $3\"/\"$2 }' | sed s/i//g",  10,   20),
 	BLOCK("echo ' ';pamixer --get-volume |  sed 's/$/\\%/g'",  1,    22),
 	BLOCK("bateria", 5,    23),

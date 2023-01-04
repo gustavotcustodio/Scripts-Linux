@@ -8,13 +8,13 @@ if [[ $infobateria != *"Discharging"*  ]]; then
 fi
 
 if [[ $porcentagem -lt 15 ]]; then
-    echo " ${porcentagem}%"
+    echo "  ${porcentagem}%"
 elif [[ $porcentagem -lt 40 ]]; then
-    echo " ${porcentagem}%"
+    echo "  ${porcentagem}%"
 elif [[ $porcentagem -lt 65 ]]; then
-    echo " ${porcentagem}%"
+    echo "  ${porcentagem}%"
 elif [[ $porcentagem -lt 90 ]]; then
-    echo " ${porcentagem}%"
+    echo "  ${porcentagem}%"
 else
-    echo " ${porcentagem}%"
+    echo "  ${porcentagem}%"
 fi
