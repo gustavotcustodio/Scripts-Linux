@@ -33,8 +33,11 @@ typedef struct {
     const void *cmd;
 } Sp;
 
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x30", NULL };
-const char *spcmd2[] = {"st", "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
+//const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x30", NULL };
+// const char *spcmd2[] = {"st", "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
+const char *spcmd1[] = {TERMINAL, "--class", "spterm", NULL };
+const char *spcmd2[] = {TERMINAL, "--config-file", "/home/gustavo/.alacritty_scratchpad.yml", "--class", "spcalc", "-e", "bc", "-lq", NULL};
+
 static Sp scratchpads[] = {
     /* name          cmd  */
     {"spterm",      spcmd1},
@@ -50,12 +53,12 @@ static const Rule rules[] = {
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
-    /* class    instance      title       	 tags mask    isfloating   isterminal  noswallow  monitor */
-    { "Gimp",     NULL,       NULL,       	    1 << 8,       0,           0,         0,        -1 },
-    { TERMCLASS,   NULL,       NULL,       	    0,            0,           1,         0,        -1 },
-    { NULL,       NULL,       "Event Tester",   0,            0,           0,         1,        -1 },
-    { NULL,      "spterm",    NULL,       	    SPTAG(0),     1,           1,         0,        -1 },
-    { NULL,      "spcalc",    NULL,       	    SPTAG(1),     1,           1,         0,        -1 },
+    /* class            instance     title       	  tags mask    isfloating   isterminal  noswallow  monitor */
+    //{ "Gimp",             NULL,       NULL,       	    1 << 8,       0,           1,         0,        -1 },
+    { TERMCLASS,          NULL,       NULL,       	    0,            0,           1,         0,        -1 },
+    { NULL,               NULL,      "Event Tester",    0,            0,           0,         1,        -1 },
+    { NULL,              "spterm",    NULL,       	    SPTAG(0),     1,           1,         0,        -1 },
+    { NULL,              "spcalc",    NULL,       	    SPTAG(1),     1,           1,         0,        -1 },
 };
 
 /* layout(s) */
