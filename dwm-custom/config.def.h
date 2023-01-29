@@ -33,11 +33,6 @@ typedef struct {
     const void *cmd;
 } Sp;
 
-/* tagging */
-static const char *tags[] = { " ", " ", " ", " ", " ", " ", " ", " ", " " };
-
-static const char *defaulttagapps[] = { "alacritty", "brave", "telegram-desktop", "music", "steam", "thunar", NULL, "news", "transmission-gtk" };
-
 //const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x30", NULL };
 // const char *spcmd2[] = {"st", "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
 const char *spcmd1[] = {TERMINAL, "--class", "spterm", NULL };
@@ -49,12 +44,18 @@ static Sp scratchpads[] = {
     {"spcalc",      spcmd2},
 };
 
+/* tagging */
+
+static const char *tags[] = { " ", " ", " ", " ", " ", " ", " ", " ", " " };
+static const char *defaulttagapps[] = { "alacritty","brave", "telegram-desktop", "alacritty -e cmus", "steam", "thunar", NULL, "newsboat", "transmission-gtk" };
+
 static const Rule rules[] = {
     /* xprop(1):
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
     /* class            instance     title       	  tags mask    isfloating   isterminal  noswallow  monitor */
+    //{ "Gimp",             NULL,       NULL,       	    1 << 8,       0,           1,         0,        -1 },
     { TERMCLASS,          NULL,       NULL,       	    0,            0,           1,         0,        -1 },
     { NULL,               NULL,      "Event Tester",    0,            0,           0,         1,        -1 },
     { NULL,              "spterm",    NULL,       	    SPTAG(0),     1,           1,         0,        -1 },
@@ -190,7 +191,7 @@ static Key keys[] = {
         { MODKEY,			    XK_backslash,		view,		{0} },
         /* { MODKEY|ShiftMask,		XK_backslash,		spawn,		SHCMD("") }, */
 
-        { MODKEY,			    XK_a,		togglegaps,	    {0} },
+        { MODKEY,			    XK_a,		togglegaps,	{0} },
         { MODKEY|ShiftMask,		XK_a,		defaultgaps,	{0} },
         { MODKEY,               XK_s,       spawndefault,   {0} },
         { MODKEY|ShiftMask,		XK_s,	    spawn,         	SHCMD("systemctl suspend") },
