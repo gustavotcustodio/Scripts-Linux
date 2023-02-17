@@ -2,4 +2,4 @@
 folder=wallpapers
 filename=$(ls ~/Pictures/${folder} | shuf -n 1)
 #feh --bg-fill "/home/gustavo/Pictures/${folder}/${filename}"
-wal -i "/home/gustavo/Pictures/${folder}/${filename}" -q
+wal -i "/home/gustavo/Pictures/${folder}/${filename}"

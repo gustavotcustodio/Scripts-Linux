@@ -1,8 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
-#define TERMINAL "alacritty"
-#define TERMCLASS "Alacritty"
+#define TERMINAL "kitty"
+#define TERMCLASS "kitty"
 
 /* appearance */
 static unsigned int borderpx  = 3;        /* border pixel of windows */
@@ -34,14 +34,14 @@ typedef struct {
 } Sp;
 
 /* tagging */
-static const char *tags[] = { " ", " ", " ", " ", " ", "", " ", " ", " " };
+static const char *tags[] = { " ", " ", " ", " ", " ", "", " ", " ", " " };
 
-static const char *defaulttagapps[] = { "alacritty", "brave", "telegram-desktop", "music", "steam", "discord", NULL, "news", "transmission-gtk" };
+static const char *defaulttagapps[] = { "kitty", "brave", "telegram-desktop", "music", "steam", "discord", "schedule", "news", "transmission-gtk" };
 
 //const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x30", NULL };
 // const char *spcmd2[] = {"st", "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
 const char *spcmd1[] = {TERMINAL, "--class", "spterm", NULL };
-const char *spcmd2[] = {TERMINAL, "--config-file", "/home/gustavo/.alacritty_scratchpad.yml", "--class", "spcalc", "-e", "bc", "-lq", NULL};
+const char *spcmd2[] = {TERMINAL, "--class", "spcalc", "-e", "bc", "-lq", NULL};
 
 static Sp scratchpads[] = {
     /* name          cmd  */
