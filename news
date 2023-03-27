@@ -1,2 +1,2 @@
 #!/bin/sh
-alacritty -e "newsboat" -r
+kitty -e "newsboat"

@@ -1,0 +1,11 @@
+#!/bin/sh
+killall cmus
+killall newsboat
+killall transmission-gtk
+killall telegram-desktop
+killall brave
+
+mons -m
+
+killall kitty
+chromium

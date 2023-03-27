@@ -36,7 +36,7 @@ typedef struct {
 /* tagging */
 static const char *tags[] = { " ", " ", " ", " ", " ", "", " ", " ", " " };
 
-static const char *defaulttagapps[] = { "kitty", "brave", "telegram-desktop", "music", "steam", "discord", "schedule", "news", "transmission-gtk" };
+static const char *defaulttagapps[] = { "kitty", "brave", "telegram-desktop", "music", "steam", "discord", "notion-app", "news", "transmission-gtk" };
 
 //const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x30", NULL };
 // const char *spcmd2[] = {"st", "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
@@ -221,7 +221,7 @@ static Key keys[] = {
         { MODKEY,			    XK_b,		togglebar,	{0} },
         { MODKEY|ShiftMask,		XK_b,	spawn,		SHCMD("reboot") },
         { MODKEY,			    XK_n,		spawn,		SHCMD(TERMINAL " -e nvim") },
-        { MODKEY|ShiftMask,		XK_n,		spawn,		SHCMD(TERMINAL " -e newsboat -r") },
+        { MODKEY|ShiftMask,		XK_n,		spawn,		SHCMD(TERMINAL " -e newsboat") },
         { MODKEY,			    XK_m,		spawn,		SHCMD("thunar") },
         { MODKEY|ShiftMask,		XK_m,		spawn,		SHCMD("pamixer -t; kill -44 $(pidof dwmblocks)") },
         //{ MODKEY,			XK_comma,	spawn,		SHCMD("mpc prev") },

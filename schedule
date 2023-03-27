@@ -1,2 +1,2 @@
 #!/bin/sh
-alacritty -e calcurse
+kitty -e "calcurse"
