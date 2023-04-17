@@ -1,7 +1,6 @@
 #!/bin/bash
 
-ROMSFOLDER="$HOME/Downloads/roms/"
-
+ROMSFOLDER="$HOME/Documents/games/roms/"
 
 echo "Select a console:"
 
