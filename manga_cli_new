@@ -94,11 +94,8 @@ download_image () {
     url="$1"
     download_dir="$2"
     filename="p$(echo "$3" | awk '{printf("%03d", $page)}').jpg" # $3 = page number
-    echo $url
 
-    aria2c --enable-rpc=false --check-certificate=false --continue --summary-interval=0 -x 16 -s 16 "$url" --dir="$download_dir" -o "$filename" --download-result=hide --header='Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8' --header='Accept-Language: en-US,en;q=0.5' --header='Cache-Control: max-age=0' --header='Connection: keep-alive' --header='Referer: https://mangabuddy.com/' --header='Sec-Fetch-Dest: document' --header='Sec-Fetch-Mode: navigate' --header='Sec-Fetch-Site: cross-site' --header='Sec-Fetch-User: ?1' --header='Sec-GPC: 1' --header='Upgrade-Insecure-Requests: 1' --header='User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36' --header='sec-ch-ua: "Brave";v="117", "Not;A=Brand";v="8", "Chromium";v="117"' --header='sec-ch-ua-mobile: ?0' --header='sec-ch-ua-platform: "Linux"'
-    # --compressed
-
+    aria2c --enable-rpc=false --check-certificate=false --continue --summary-interval=0 -x 16 -s 16 "$url" --dir="$download_dir" -o "$filename" --download-result=hide --header="authority: 's1.mbcdnv1.xyz'" --header="pragma: no-cache" --header="Upgrade-Insecure-Requests: 1" --header="user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" --header="referer: https://mangabuddy.com/"
     # curl -s "$url"  \
     #     -H "authority: 's1.mbcdnv1.xyz'" \
     #     -H 'pragma: no-cache' \
@@ -106,6 +103,13 @@ download_image () {
     #     -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36' \
     #     -H 'referer: https://mangabuddy.com/' \
     # --compressed
+}
+
+download_images () {
+    urls="$1"
+    download_dir="$2"
+
+    aria2c -Z --enable-rpc=false --check-certificate=false --continue --summary-interval=0 -x 16 -s 16 "$urls" --dir="$download_dir" -o "$filename" --download-result=hide --header="authority: 's1.mbcdnv1.xyz'" --header="pragma: no-cache" --header="Upgrade-Insecure-Requests: 1" --header="user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" --header="referer: https://mangabuddy.com/"
 }
 
 download_chapter () {
@@ -116,26 +120,23 @@ download_chapter () {
     # Get the chapter name and add leading zeroes to the chapter number
     fixed_chaptername=$(format_chaptername "$chaptername" "$chapter_number")
 
-    mkdir -p "${mangatitle}"/"${fixed_chaptername}"
-
     page=0  # Page counter
 
-    # pagelist=$(get_chapter_images "$mangatitle" "$chaptername")
-    # pagelist=$(echo "$pagelist" | tr '\n' ' ')
+    # for page_url in $(get_chapter_images "$mangatitle" "$chaptername"); do
+    #     page=$((page+1))
+    #     # echo -e "\n======================"
+    #     # echo "Downloading page ${page}..."
+    #     # echo "======================"
 
-    # aria2c --enable-rpc=false --check-certificate=false --continue --summary-interval=0 -x 16 -s 16 "$pagelist" --dir="$download_dir" --download-result=hide --header="authority: 's1.mbcdnv1.xyz'" --header="pragma: no-cache" --header="Upgrade-Insecure-Requests: 1" --header="user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" --header="referer: https://mangabuddy.com/"
-    for page_url in $(get_chapter_images "$mangatitle" "$chaptername"); do
-        page=$((page+1))
-        # echo -e "\n======================"
-        # echo "Downloading page ${page}..."
-        # echo "======================"
+    #     # Download a manga page, saving the file as pageXXX.jpg (with 3 leading zeroes)
 
-        # Download a manga page, saving the file as pageXXX.jpg (with 3 leading zeroes)
+    #     download_dir="$(pwd)/${mangatitle}/${fixed_chaptername}"
 
-        download_dir="$(pwd)/${mangatitle}/${fixed_chaptername}"
-
-        download_image "$page_url" "$download_dir" "$page"
-    done
+    #     # download_image "$page_url" "$download_dir" "$page"
+    # done
+    download_dir="$(pwd)/${mangatitle}/${fixed_chaptername}"
+    pages="$(get_chapter_images ${mangatitle} ${chaptername})"
+    download_images "$pages" "$download_dir"
 }
 
 download_multiple_chapters () {
