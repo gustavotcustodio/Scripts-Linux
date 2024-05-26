@@ -1,0 +1,2 @@
+#!/bin/sh
+onedrive --confdir "~/.config/onedrive/accounts/gustavotorres@ipt.br" --syncdir "OneDrive_gustavotorres@ipt.br" --monitor --resync

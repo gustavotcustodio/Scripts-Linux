@@ -1,4 +1,4 @@
 #!/bin/sh
 data_hora=$(date +"%Y_%m_%d_%H-%M-%S")
-ffmpeg -video_size 1366x768 -framerate 25 -f x11grab -i :0.0 -f pulse -ac 3 -i default "${data_hora}.mp4"
+ffmpeg -video_size 1366x768 -framerate 25 -f x11grab -i :0.0 -f pulse -ac 1 -i default "${data_hora}.mp4"
 ffmpeg -i "${data_hora}.mp4" -c:v libx264 -profile:v baseline -level 3.0 -pix_fmt yuv420p "${data_hora}_whats.mp4"

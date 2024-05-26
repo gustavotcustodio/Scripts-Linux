@@ -36,7 +36,7 @@ typedef struct {
 /* tagging */
 static const char *tags[] = { " ", " ", " ", " ", " ", "", " ", " ", " " };
 
-static const char *defaulttagapps[] = { "kitty", "firefox", "telegram-desktop", "music",  "steam", "discord", "notion-app", "news", "transmission-gtk" };
+static const char *defaulttagapps[] = { "kitty", "brave", "telegram-desktop", "music",  "steam", "discord", "notion-app", "news", "transmission-gtk" };
 
 //const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x30", NULL };
 // const char *spcmd2[] = {"st", "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
